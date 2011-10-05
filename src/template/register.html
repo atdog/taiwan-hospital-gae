@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+<link rel='stylesheet' type='text/css' href='css/fullcalendar.css' />
+<link rel='stylesheet' type='text/css' href='css/index.css' />
+<script type='text/javascript' src='js/jquery-1.5.2.min.js'></script>
+<script type='text/javascript' src='js/jquery.jsoncookie.js'></script>
+<script type='text/javascript' src='js/json2.js'></script>
+<script type='text/javascript' src='js/fullcalendar.js'></script>
+<script type='text/javascript' src='js/index_ui.js'></script>
+<script>
+	$(document).ready(function() {
+	//dropTable();
+        $('#editButton').addClass('hidden');
+		selectAllPerson();
+	});
+
+	function selectAllPerson() {
+        updateLeftList();
+	}
+
+	function updateLeftList() {
+        $('#personList').html("");
+        var results = $.cookie("data");
+		for ( var i = 0; i < results.length; i++) {
+			var row = results[i];
+			var person = new Object();
+
+			person.name = row.name;
+			person.id = row.id;
+			person.birthday = row.birthday;
+			person.phone = row.phone;
+
+			$('#personList')
+					.append(
+							'<div class="photo"><img src="http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id='
+                                    + person.id
+									+ '" width="100px" onClick="updateRightData(\''
+									+ person.name
+									+ '\',\''
+									+ person.id
+									+ '\',\''
+									+ person.birthday
+									+ '\',\''
+									+ person.phone
+									+ '\')"></img></div>');
+		}
+	}
+	function deletePerson(idNumber) {
+        var results = $.cookie("data");
+		for ( var i = 0; i < results.length; i++) {
+            if(results[i].id == idNumber) {
+                results.splice(i,1);
+                break;
+            }
+        }
+        $.cookie("data", results);
+        $('#editButton').addClass('hidden');
+        updateLeftList();
+		$('#inputNameValue').html("");
+		$('#inputIdValue').html("");
+		$('#inputBirthdayValue').html("");
+		$('#inputPhoneValue').html("");
+        hideEditPage();
+	}
+	function updateRightData(name, id, birthday, phone) {
+        $('#editButton').removeClass('hidden');
+
+		$('#inputNameValue').html(name);
+		$('#inputIdValue').html(id);
+		$('#inputBirthdayValue').html(birthday);
+		$('#inputPhoneValue').html(phone);
+	}
+
+    function updateCookie() {
+		var inputName = $('#inputName').val();
+		var inputId = $('#inputId').val();
+		var inputBirthday = $('#inputBirthday').val();
+		var inputPhone = $('#inputPhone').val();
+
+
+        if(inputName.length != 0 && inputId.length != 0 && inputBirthday.length != 0 && inputPhone.length != 0) {
+            $('#transparentBackground').removeClass("hidden");
+            if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPad/i)) {
+                window.location="/submitNewUserInfo";
+            }
+            //for cookie
+            var old_data = $.cookie("data");
+            var isExist = false;
+            var candidate;
+            if(old_data == null) {
+                old_data = new Array();
+            }
+            else {
+                for ( var i = 0; i < old_data.length; i++) {
+                    if(old_data[i].id == inputId) {
+                        isExist = true;
+                        candidate = i;
+                        break;
+                    }
+                }
+            }
+            if(!isExist) {
+                var data = {
+                    name: inputName,
+                    id: inputId,
+                    birthday: inputBirthday,
+                    phone: inputPhone
+                };
+                old_data.push(data);
+            }
+            else {
+                old_data[candidate].name = inputName;
+                old_data[candidate].id = inputId;
+                old_data[candidate].birthday = inputBirthday;
+                old_data[candidate].phone = inputPhone;
+            }
+            $.cookie("data",old_data);
+            //updateLeftList();
+            //updateRightData(inputName, inputId, inputBirthday, inputPhone);
+            hideEditPage();
+
+			$.ajax({
+				type : "GET",
+				url : "http://www.cs.nctu.edu.tw/~hcsu/hospital/local-ajax/newUser.php",
+				dataType : "jsonp",
+				data : {
+					"id" : inputId,
+					"birthday" : inputBirthday
+				},
+				success : function(response) {
+                    window.location="/register";
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					//alert(xhr.status);
+					//alert(thrownError);
+				}
+			});
+		} else {
+            showNotifiaction();
+		}
+    }
+
+	function submitForm() {
+		var inputName = $('#inputNameValue').html();
+		var inputId = $('#inputIdValue').html();
+		var inputBirthday = $('#inputBirthdayValue').html();
+		var inputPhone = $('#inputPhoneValue').html();
+
+
+        if(inputName.length != 0 && inputId.length != 0 && inputBirthday.length != 0 && inputPhone.length != 0) {
+            $('#postId').val(inputId);
+            $('#postBirthday').val(inputBirthday);
+            $('#personalInfo').submit();
+		} else {
+            showNotifiaction();
+		}
+	}
+	function lastPage() {
+		window.location='/';
+	}
+
+    function editPage(title, newInfo) {
+        if(newInfo == 1) {
+            $('#inputName').val("");
+            $('#inputId').val("");
+            $('#inputBirthday').val("");
+            $('#inputPhone').val("");
+            $('#deleteButton').addClass('hidden');
+        }
+        else {
+            $('#inputName').val($('#inputNameValue').html());
+            $('#inputId').val($('#inputIdValue').html());
+            $('#inputBirthday').val($('#inputBirthdayValue').html());
+            $('#inputPhone').val($('#inputPhoneValue').html());
+            $('#deleteButton').removeClass('hidden');
+        }
+        $('#editInfo').slideDown('slow');
+        $('#transparent').removeClass('hidden');
+        $('#newInfoTitle').html(title);
+    }
+	
+    function hideEditPage() {
+        $('#editInfo').slideUp('slow');
+        $('#transparent').addClass('hidden');
+
+    }
+
+    function closeEditMode() {
+        if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPad/i)) {
+            window.location="/cancel";
+        }
+        hideEditPage();
+    }
+		
+    function takeshot() {
+        if($('#inputId').val() == "") {
+            showNotifiaction();
+        }
+        else {
+            if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPad/i)) {
+                window.location='/takeshot?id='+$('#inputId').val();
+            }
+        }
+    }
+</script>
+</head>
+
+<body>
+    <div id="transparentBackground" class="hidden">
+        <div id="whiteBackground" >
+	        <div id="onLoad">讀取中</div>
+        </div>
+    </div>
+
+	<div id="transparent" class="hidden"></div>
+    <div id="notificationBackground" class="hidden"></div>
+	<div id="notification" class="hidden">
+       <div id="notificationText">請先填入資料</div>
+       <div id="notificationButton" onClick="closeNotification();">確認</div>
+    </div>
+	<div id="personal">
+		<div id="photoTitle" class="title">個人資料</div>
+		<div class="photoList" id="personList">			
+		
+		</div>
+		<div class="button" id="newInfo" onClick="editPage('新增個人資料',1)">新增資料</div>
+	</div>
+
+	
+	
+	<div id="info">
+				
+		<div class="redTitle">填寫個人資料 </div>
+		
+		<form id="personalInfo" method="post" enctype="multipart/form-data"
+			action="register2.php">
+			<div class="formData">
+				
+				<div class="inputTextLeft">姓名：</div>
+				<div class="inputTextRight">
+					<span id="inputNameValue" ></span>
+					<span class="editButton" id="editButton" onclick="editPage('編輯個人資料', 0)">編輯</span>
+				</div>
+				
+				<div class="clear"></div>
+				<div class="inputTextLeft">身分證：</div>
+				<div class="inputTextRight">
+					<span id="inputIdValue" ></span>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">生日：</div>
+				<div class="inputTextRight">
+					<span id="inputBirthdayValue" ></span>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">電話：</div>
+				<div class="inputTextRight">
+					<span id="inputPhoneValue" ></span>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<a class="button" id="lastPage" onClick="lastPage();"	>上一步</a> 
+			<a class="button" id="submit" onClick="javascript:submitForm();">下一步</a>
+			<div class="clear"></div>
+            <input type="hidden" id="postId" name="id"></input>
+            <input type="hidden" id="postBirthday" name="birthday"></input>
+		</form>
+	</div>
+	
+	
+	<div class="clear"></div>
+	
+		
+	<div id="editInfo">
+				
+		<div class="redTitle" id="newInfoTitle"></div>
+		<!--<div id="notification" class="hidden" >請填入資料後，<br>按送出以新增資料</div>-->
+		
+		<form id="personalInfo" method="post" enctype="multipart/form-data"
+			action="/register">
+			<div class="formData">
+				<div class="inputTextLeft">姓名：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputName" placeholder="請輸入姓名"></input>
+					<span class="editButton" id="deleteButton" onclick="deletePerson($('#inputId').val())">刪除</span>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">身分證：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputId" placeholder="請輸入身分證字號"></input>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">生日：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputBirthday"
+						placeholder="請輸入生日,例：1988/02/03"></input>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">電話：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputPhone"
+						placeholder="請輸入電話號碼"></input>
+                <span class="editButton" id="editButton" onclick="takeshot()">拍照</span>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<a class="button" id="lastPage" onClick="closeEditMode()">取消</a> 
+			<a class="button" id="submit" onClick="updateCookie();">送出</a>
+			<div class="clear"></div>
+
+		</form>
+	</div>
+	
+</body>
+</html>
