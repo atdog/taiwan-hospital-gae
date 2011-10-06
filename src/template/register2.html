@@ -162,7 +162,24 @@
 	function chooseTime(time) {
 		$('#inputTime').val(time);
 	}
-	function submitRegister() {
+	
+	
+	function submitForm() {
+		var inputHospital = $('#hospitalId').val();
+		var inputDept = $('#deptId').val();
+		var inputDoctor = $('#doctorId').val();
+		var inputTime = $('#inputTime').val();
+
+
+        if(inputHospital.length != 0 && inputDept.length != 0 && inputDoctor.length != 0 && inputTime.length != 0) {
+            $('#registerForm').submit();
+		} else {
+            showNotifiaction();
+		}
+	}
+	
+	
+	/* function submitRegister() {
 		if ($('#inputHospital').val() == "" || $('#inputDept').val() == ""
 				|| $('#inputDoctor').val() == "" || $('#inputTime').val() == "") {
             showNotifiaction();
@@ -222,15 +239,17 @@
 					}
 				});
 
-	}
+	} */
+
 	function lastPage() {
-		$("body").append('<div id="loadingNewPage">載入中...</div>');
-		window.location='/register	';
-	}
+	window.location='/';
+	} 
+	
 </script>
 </head>
 
 <body>
+
 	<div id="transparent" class="hidden">
         <div id="checkRegister" class="hidden">
 		</div>
@@ -244,7 +263,7 @@
 	</div>
 	<div id="Form">
 		<div class="redTitle">填寫掛號資訊</div>
-		<form id="registerForm" method="get" action="/">
+<!-- 		<form id="registerForm" method="get" action="/">
 			<div class="formData">
 				<div class="inputTextLeft">醫院：</div>
 				<div class="inputTextRight">
@@ -276,7 +295,44 @@
 			</div>
 			<input type="hidden" id="hiddenId" value="{{id}}"></input> <input type="hidden" id="hiddenBirthday" value="{{birthday}}"></input> 
 			<a	class="button" id="lastPage" onClick="lastPage();" >上一步</a>
-			<a class="button" id="submit" onClick="javascript:submitRegister();">完成</a>
+			<a class="button" id="submit" onClick="javascript:submitForm();">下一步</a>
+			<div class="clear"></div>
+
+		</form> -->
+		<form id="registerForm" method="post" enctype="multipart/form-data"
+			action="/register">
+			<div class="formData">
+				<div class="inputTextLeft">醫院：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputHospital" readonly="readonly" name = "Hospital"
+						placeholder="請點擊後選擇..."></input><input type="hidden"
+						id="hospitalId" name="hospitalId"></input>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">科別：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputDept" readonly="readonly" name = "Dept"
+						placeholder="請點擊後選擇..."></input> <input type="hidden" id="deptId"
+						name="deptId"></input>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">醫生：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputDoctor" readonly="readonly"name = "Doctor"
+						placeholder="請點擊後選擇..."></input><input type="hidden" id="doctorId"
+						name="doctorId"></input>
+				</div>
+				<div class="clear"></div>
+				<div class="inputTextLeft">時段：</div>
+				<div class="inputTextRight">
+					<input type="text" id="inputTime" readonly="readonly" name = "Time"
+						placeholder="請點擊後選擇..."></input>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<input type="hidden" id="hiddenId" value="{{id}}"></input> <input type="hidden" id="hiddenBirthday" value="{{birthday}}"></input> 
+			<a	class="button" id="lastPage" onClick="lastPage();" >上一步</a>
+			<a class="button" id="submit" onClick="javascript:submitForm();">下一步</a>
 			<div class="clear"></div>
 
 		</form>

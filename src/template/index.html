@@ -110,7 +110,7 @@ function cancelRegister(rid, hospitalId, deptId, doctorId, idNumber, birthday, t
 	$.ajax({
 		type : "GET",
 		url : "http://www.cs.nctu.edu.tw/~hcsu/hospital/local-ajax/cancel_register.php",
-		dataType : "json",
+		dataType : "jsonp",
 		data: {
 			"rid":rid
 		},

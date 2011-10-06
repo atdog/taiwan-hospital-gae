@@ -13,18 +13,29 @@ class Profile(db.Model):
 class MainPage(webapp.RequestHandler):
     def get(self):
         template_values = {}
-        path = os.path.join(os.path.dirname(__file__), 'template/register.html')
+#        path = os.path.join(os.path.dirname(__file__), 'template/register.html')
+        path = os.path.join(os.path.dirname(__file__), 'template/register2.html')
         self.response.out.write(template.render(path, template_values))
     def post(self):
-        id = self.request.get('id')
-        birthday = self.request.get('birthday')
-        
+        hospitalId = self.request.get('hospitalId')
+        deptId = self.request.get('deptId')
+        doctorId = self.request.get('doctorId')
+        hospital = self.request.get('Hospital')
+        dept = self.request.get('Dept')
+        doctor = self.request.get('Doctor')
+        time = self.request.get('Time')
         #pic = images.resize(self.request.get("img") , 85, 120)
         template_values = {
-            'id': id,
-            'birthday': birthday,
+            'hospitalId': hospitalId,
+            'deptId': deptId,
+            'doctorId': doctorId,
+            'hospital': hospital,
+            'dept': dept,
+            'doctor': doctor,
+            'time': time
         }
-        path = os.path.join(os.path.dirname(__file__), 'template/register2.html')
+#        path = os.path.join(os.path.dirname(__file__), 'template/register2.html')
+        path = os.path.join(os.path.dirname(__file__), 'template/register.html')
         self.response.out.write(template.render(path, template_values))
 
 
