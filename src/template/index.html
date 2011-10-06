@@ -14,9 +14,29 @@
 <script type='text/javascript' src='js/index_ui.js'></script>
 <script>
 $(function() {
-	$('#new').bind('click',newRegist);
-	
+	updatePersonalPage();
 });
+
+function deletePerson(idNumber) {
+        var results = $.cookie("data");
+		for ( var i = 0; i < results.length; i++) {
+            if(results[i].id == idNumber) {
+                results.splice(i,1);
+                break;
+            }
+        }
+        $.cookie("data", results);
+        $('#editProfilePage').fadeOut("fast");
+        updatePersonalPage();
+}
+function updatePersonalPage() {
+	$('#profileData').html('');
+	var cookie = $.cookie('data');
+	for(var i = 0 ; i < cookie.length; ++i) {
+		var person = cookie[i];
+		$('#profileData').append("<div class='profilePhoto'><img onclick='choosePerson(\""+person.name+"\",\""+person.id+"\",\""+person.birthday+"\",\""+person.phone+"\")' src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+person.id+"' width='120px'></img></div>");
+	}
+}
 function newRegist() {
 	window.location = "register";
 };
@@ -156,19 +176,52 @@ function replacer(key, value) {
     }
     return value;
 }
+
+function showPersonalInfo() {
+	$('#transparent').removeClass('hidden');
+	$('#profileButton').unbind('click',showPersonalInfo);
+
+	$('#profile').animate({"left":"0px"},"slow");
+	
+	
+	$('#profileButton').bind('click',hidePersonalInfo);
+	
+}
+function hidePersonalInfo() {
+	$('#profileButton').unbind('click',hidePersonalInfo);
+	$('#profile').animate({"left":"-200px"},"slow");
+	$('#transparent').addClass('hidden');
+	$('#editProfilePage').fadeOut("slow");
+	$('#profileButton').bind('click',showPersonalInfo);
+}
+
+function choosePerson(name,id,birthday,phone) {
+	$('#editProfilePage').fadeOut("fast");
+	$('#editProfilePage').fadeIn("slow");
+	$('#editProfilePage').html("<div class=title>"+name+"<span class='button' style='float:right;' onClick='deletePerson(\""+id+"\")'>刪除</span></div><div id='personalInfo'><div id='personalImage'><img src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+id+"' width='140px'></img><div class='button'>拍照</div></div><div id='personalContent'><div><div class='row'><span class='left'>身分證字號：</span><span class='right'>"+id+"</span></div><div class='row'><span class='left'>生日：</span><span class='right'>"+birthday+"</span></div><div class='row'><span class='left'>電話：</span><span class='right'>"+phone+"</span></div></div>");
+}
 </script>
 </head>
 
 <body>
+	<span id="profile" >
+		<div id="profileLeft">
+			<div id = "profileData" ></div>
+			<div id = "profileButton" onClick="showPersonalInfo()"><br>個<br>人<br>資<br>料</div>
+			<div class = "clear"></div>
+		</div>
+	</span>
+	<span id = "editProfilePage" class="hidden"></span>
+	
     <div id="transparent" class="hidden">
 	    <div id="queryDiv" class="hidden">
 		</div>
 	</div>
 	
 	<div id="listDiv">
-		<div id="listTitle" class="title">掛號列表</div>		
+		<div id="listTitle" class="title">掛號列表</div>
+		<div class="button" id="new" onClick='newRegist()'>+ 新增掛號</div>		
 		<div class="tableDiv"></div>
-		<div class="button" id="new">+ 新增掛號</div>
 	</div>
 	
 	<div id="calendar">
