@@ -138,7 +138,9 @@ function selectAllPerson() {
 function updateLeftCalendar() {
     var results = $.cookie("data");
 	var idMap = {'id':[]};
-
+	if(results == null) {
+		return;
+	}
 	IMAGEMAP = {};
 	for ( var i = 0; i < results.length; i++) {
 		var row = results[i];
@@ -154,9 +156,6 @@ function updateLeftCalendar() {
  		},
 		success: function(response) {
 			$('#listDiv .tableDiv').html("");
-			if(response == null) {
-				return;
-			}
 			var row = $.template('<div class="rowDiv" onClick="queryRegist(\'${rid}\')"><div class="rowLeft"><img src="${image}" width="100%"></img></div><div class="rowRight"><p>${title}</p><p>${subtitle}</p>${time}</div><div class="clear"></div></div>');
 			for( var j =0; j< response.length ;++j) {
 				$('#listDiv .tableDiv').append(row,{
