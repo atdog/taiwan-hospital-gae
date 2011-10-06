@@ -32,6 +32,9 @@ function deletePerson(idNumber) {
 function updatePersonalPage() {
 	$('#profileData').html('');
 	var cookie = $.cookie('data');
+	if(cookie == null) {
+		return;
+	}
 	for(var i = 0 ; i < cookie.length; ++i) {
 		var person = cookie[i];
 		$('#profileData').append("<div class='profilePhoto'><img onclick='choosePerson(\""+person.name+"\",\""+person.id+"\",\""+person.birthday+"\",\""+person.phone+"\")' src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+person.id+"' width='120px'></img></div>");

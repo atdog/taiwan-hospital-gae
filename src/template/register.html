@@ -25,6 +25,9 @@
 	function updateLeftList() {
         $('#personList').html("");
         var results = $.cookie("data");
+        if(results == null) {
+        	return;
+        }
 		for ( var i = 0; i < results.length; i++) {
 			var row = results[i];
 			var person = new Object();
