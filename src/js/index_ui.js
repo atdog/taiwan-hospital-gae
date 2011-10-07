@@ -39,7 +39,8 @@ function setHeight() {
 	$(".formData").height(height-$(".redTitle").height()-$(".button").height()-120);
 	//$(".tableDiv").height(height-$("#listTitle").height()-$("#new").height()-50);
 	$(".tableDiv").height(height-$("#listTitle").height()-40);
-	$("#personList").height(height-$("#newInfo").height()-$('#photoTitle').height()-50);	
+	//$("#personList").height(height-$("#newInfo").height()-$('#photoTitle').height()-50);
+	$("#personList").height(height-$('#photoTitle').height()-20);	
 
     var notificationTop = (window.innerHeight - $('#notification').height()) / 2;
     $('#notification').css("top", notificationTop);
