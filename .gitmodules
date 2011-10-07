@@ -1,0 +1,3 @@
+[submodule "doh-hospital"]
+	path = doh-hospital
+	url = git@github.com:lmr3796/doh-hospital.git
