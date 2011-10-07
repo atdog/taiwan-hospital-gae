@@ -39,6 +39,8 @@ function updatePersonalPage() {
 		var person = cookie[i];
 		$('#profileData').append("<div class='profilePhoto'><img onclick='choosePerson(\""+person.name+"\",\""+person.id+"\",\""+person.birthday+"\",\""+person.phone+"\")' src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+person.id+"' width='120px'></img></div>");
 	}
+	
+	
 }
 function newRegist() {
 	window.location = "register";
@@ -183,7 +185,7 @@ function replacer(key, value) {
 }
 
 function showPersonalInfo() {
-	$('#transparent').removeClass('hidden');
+	$('#transparentProfile').removeClass('hidden');
 	$('#profileButton').unbind('click',showPersonalInfo);
 
 	$('#profile').animate({"left":"0px"},"slow");
@@ -195,7 +197,7 @@ function showPersonalInfo() {
 function hidePersonalInfo() {
 	$('#profileButton').unbind('click',hidePersonalInfo);
 	$('#profile').animate({"left":"-200px"},"slow");
-	$('#transparent').addClass('hidden');
+	$('#transparentProfile').addClass('hidden');
 	$('#editProfilePage').fadeOut("slow");
 	$('#profileButton').bind('click',showPersonalInfo);
 }
@@ -209,6 +211,7 @@ function choosePerson(name,id,birthday,phone) {
 </head>
 
 <body>
+    <div id="transparentProfile" class="hidden" onClick="hidePersonalInfo()"></div>
 	<span id="profile" >
 		<div id="profileLeft">
 			<div id = "profileData" ></div>
@@ -224,8 +227,8 @@ function choosePerson(name,id,birthday,phone) {
 	</div>
 	
 	<div id="listDiv">
-		<div id="listTitle" class="title">掛號列表</div>
-		<div class="button" id="new" onClick='newRegist()'>+ 新增掛號</div>		
+		<div id="listTitle" class="title"><div class="button" id="new" onClick='newRegist()'>+ 新增掛號</div></div>
+<!-- 		<div class="button" id="new" onClick='newRegist()'>+ 新增掛號</div>-->		
 		<div class="tableDiv"></div>
 	</div>
 	

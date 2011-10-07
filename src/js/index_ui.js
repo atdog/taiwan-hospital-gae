@@ -37,7 +37,8 @@ function setHeight() {
 	$("#Form").height(height);
 	
 	$(".formData").height(height-$(".redTitle").height()-$(".button").height()-120);
-	$(".tableDiv").height(height-$("#listTitle").height()-$("#new").height()-50);
+	//$(".tableDiv").height(height-$("#listTitle").height()-$("#new").height()-50);
+	$(".tableDiv").height(height-$("#listTitle").height()-40);
 	$("#personList").height(height-$("#newInfo").height()-$('#photoTitle').height()-50);	
 
     var notificationTop = (window.innerHeight - $('#notification').height()) / 2;
@@ -47,6 +48,8 @@ function setHeight() {
     $('#whiteBackground').css("top", whiteBackgroundTop);
     var whiteBackgroundLeft = (window.innerWidth - $('#whiteBackground').width()) / 2;
     $('#whiteBackground').css("left", whiteBackgroundLeft);
+    
+    $('#profileButton').css("top","70%");
 	/*
 	$('#listDiv').css("border-right", width*0.003+"px solid #999");
 	$('#personal').css("border-right", width*0.003+"px solid #999");

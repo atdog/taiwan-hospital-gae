@@ -176,8 +176,13 @@
 		window.location = "/";
 	}
 	function submitRegister() {
-		if ($('#inputHospital').val() == "" || $('#inputDept').val() == ""
-				|| $('#inputDoctor').val() == "" || $('#inputTime').val() == "") {
+		var inputName = $('#inputNameValue').val();
+		var inputId = $('#inputIdValue').val();
+		var inputBirthday = $('#inputBirthdayValue').val();
+		var inputPhone = $('#inputPhoneValue').val();
+
+        if(inputName.length == 0 || inputId.length == 0 || inputBirthday.length == 0 || inputPhone.length == 0 || $('#inputHospital').val() == "" || $('#inputDept').val() == ""|| $('#inputDoctor').val() == "" || $('#inputTime').val() == "" )
+		{
             showNotifiaction();
 			return;
 		}
@@ -345,14 +350,14 @@
 				<div class="inputTextLeft">生日：</div>
 				<div class="inputTextRight">
 					<input type="text" id="inputBirthdayValue"
-						placeholder="請輸入生日,例：1988/02/03"></input>
+						placeholder="例：1988/02/03"></input>
 					<!-- <span id="inputBirthdayValue" ></span> -->
 				</div>
 				<div class="clear"></div>
 				<div class="inputTextLeft">電話：</div>
 				<div class="inputTextRight">
 					<input type="text" id="inputPhoneValue"
-						placeholder="請輸入電話號碼"></input>
+						placeholder="請輸入電話"></input>
 						<span class="editButton" id="editButton" onclick="takeshot()">拍照</span>
 					<!-- <span id="inputPhoneValue" ></span> -->
 				</div>

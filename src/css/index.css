@@ -11,12 +11,19 @@ html,body {
 	width: 68%;
 }
 
+#transparentProfile {
+    position: absolute;
+    background: rgba(255,255,255,0.7);   
+    width:100%;
+    height:100%;
+	z-index: 10005;	
+}
 #profile {
 	position: absolute;
 	left: -200px;
 	height:100%;
 	width: 237px;
-	z-index:999;
+	z-index:10006;
 }
 
 #profileLeft {
@@ -54,7 +61,7 @@ html,body {
 	left:0%;
 	top:75%;
 	width:37px;
-	height: 95px;
+	height: 100px;
 	text-align: center;
 	margin-top: 5px;
 	color: #FFFFFF;
@@ -87,7 +94,7 @@ border-radius: 0px 5px 5px 0px;
 	left: 270px;
 	height:80%;
 	width:60%;
-	z-index:999;
+	z-index:10006;
 
 	background: rgba(0,0,0,0.7);
 	
@@ -192,6 +199,10 @@ border-radius: 0px 5px 5px 0px;
 	background: linear-gradient(top, #ebe9e9 0%,#e0e0e0 60%,#cccccc 100%); /* W3C */
 }
 
+#listTitle {
+	height: 90px;
+	padding-top:0;
+}
 
 .white {
 	position: absolute;
@@ -480,7 +491,7 @@ box-shadow: 1px 1px 4px 2px rgba(00, 00, 00, 0.6);
 
 .inputTextRight input {
 	height: 30px;
-	width: 200px;
+	width: 170px;
 }
 
 .formData { 	
@@ -663,6 +674,8 @@ background: linear-gradient(top, #588e57 0%,#3e7c3c 1%,#3a7a39 3%,#1d7124 47%,#1
 	top: 80%;		
 }
 
+
+
 .editButton
 {
 font-size:1em;
@@ -694,7 +707,7 @@ box-shadow: 1px 1px 4px 2px rgba(00, 00, 00, 0.6);
 
 #inputNameValue ,#inputIdValue,#inputBirthdayValue,#inputPhoneValue
 {
-font-size:2em;
+font-size:1.2em;
 }
 
 #editInfo{
