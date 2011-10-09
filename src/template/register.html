@@ -95,7 +95,7 @@
 
 
         if(inputName.length != 0 && inputId.length != 0 && inputBirthday.length != 0 && inputPhone.length != 0) {
-            $('#transparentBackground').removeClass("hidden");
+            /* $('#transparentBackground').removeClass("hidden"); */
             if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPad/i)) {
                 window.location="/submitNewUserInfo";
             }
@@ -115,25 +115,88 @@
                     }
                 }
             }
+            
             if(!isExist) {
-                var data = {
-                    name: inputName,
-                    id: inputId,
-                    birthday: inputBirthday,
-                    phone: inputPhone
-                };
-                old_data.push(data);
+            	var row = $
+				.template('<div class="row"><div class="clear"></div></div>');
+       			 $('#checkRegister').html("");
+        		 $('#checkRegister').append('<div id="title">儲存個人資訊</div>');
+				 $('#checkRegister').append('<div class="row"><div class="center">是否儲存個人資訊在此裝置，若不儲存則無法在首頁看到您的掛號資訊</div></div>');
+		
+        		 $('#checkRegister').append('<div class="row"><div class="leftBtn" id="checkyes" onClick="saveUserInfo();">是</div><div class="rightBtn" id="checkno" onClick="NoSaveUserInfo();">否</div><div class="clear"></div></div>');
+				 $('#checkRegister').removeClass('hidden');
+				 $('#transparent').removeClass('hidden');
+        		 var queryDivTop = (window.innerHeight - $('#checkRegister').height()) / 2;
+        		 $('#checkRegister').css("top", queryDivTop);
+   	
             }
             else {
                 old_data[candidate].name = inputName;
                 old_data[candidate].id = inputId;
                 old_data[candidate].birthday = inputBirthday;
                 old_data[candidate].phone = inputPhone;
+                $.cookie("data",old_data);
+                //updateLeftList();
+                //updateRightData(inputName, inputId, inputBirthday, inputPhone);
+                //hideEditPage();
+
+    			$.ajax({
+    				type : "GET",
+    				url : "http://www.cs.nctu.edu.tw/~hcsu/hospital/local-ajax/newUser.php",
+    				dataType : "jsonp",
+    				data : {
+    					"id" : inputId,
+    					"birthday" : inputBirthday
+    				},
+    				success : function(response) {
+    					 submitRegister(); 
+    				},
+    				error : function(xhr, ajaxOptions, thrownError) {
+    					//alert(xhr.status);
+    					//alert(thrownError);
+    				}
+    			});
             }
+            
+           
+		} else {
+            showNotifiaction();
+		}
+    }
+
+    function saveUserInfo() {
+    	var inputName = $('#inputNameValue').val();
+		var inputId = $('#inputIdValue').val();
+		var inputBirthday = $('#inputBirthdayValue').val();
+		var inputPhone = $('#inputPhoneValue').val();
+        //for cookie
+        var old_data = $.cookie("data");
+        var isExist = false;
+        var candidate;
+        if(old_data == null) {
+            old_data = new Array();
+        }
+        else {
+            for ( var i = 0; i < old_data.length; i++) {
+                if(old_data[i].id == inputId) {
+                    isExist = true;
+                    candidate = i;
+                    break;
+                }
+            }
+        }
+    	var data = {
+                name: inputName,
+                id: inputId,
+                birthday: inputBirthday,
+                phone: inputPhone
+            };
+            old_data.push(data);
+            
             $.cookie("data",old_data);
             //updateLeftList();
             //updateRightData(inputName, inputId, inputBirthday, inputPhone);
-            hideEditPage();
+            //hideEditPage();
 
 			$.ajax({
 				type : "GET",
@@ -144,19 +207,42 @@
 					"birthday" : inputBirthday
 				},
 				success : function(response) {
-					backIndex();
-					/* submitRegister(); */
+					 submitRegister(); 
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					//alert(xhr.status);
 					//alert(thrownError);
 				}
 			});
-		} else {
-            showNotifiaction();
-		}
+    	
     }
+    function NoSaveUserInfo() {
+    	var inputName = $('#inputNameValue').val();
+		var inputId = $('#inputIdValue').val();
+		var inputBirthday = $('#inputBirthdayValue').val();
+		var inputPhone = $('#inputPhoneValue').val();
+    	
 
+
+			$.ajax({
+				type : "GET",
+				url : "http://www.cs.nctu.edu.tw/~hcsu/hospital/local-ajax/newUser.php",
+				dataType : "jsonp",
+				data : {
+					"id" : inputId,
+					"birthday" : inputBirthday
+				},
+				success : function(response) {
+					 submitRegister(); 
+				},
+				error : function(xhr, ajaxOptions, thrownError) {
+					//alert(xhr.status);
+					//alert(thrownError);
+				}
+			});
+    	
+    
+    }
 /* 	function submitForm() {
 		var inputName = $('#inputNameValue').html();
 		var inputId = $('#inputIdValue').html();
@@ -180,7 +266,8 @@
 		var inputId = $('#inputIdValue').val();
 		var inputBirthday = $('#inputBirthdayValue').val();
 		var inputPhone = $('#inputPhoneValue').val();
-
+		$('#transparent').addClass('hidden');
+		
         if(inputName.length == 0 || inputId.length == 0 || inputBirthday.length == 0 || inputPhone.length == 0 || $('#inputHospital').val() == "" || $('#inputDept').val() == ""|| $('#inputDoctor').val() == "" || $('#inputTime').val() == "" )
 		{
             showNotifiaction();
@@ -230,7 +317,7 @@
 							item : '診號:',
 							value : response['message']
 						});
-		                $('#checkRegister').append('<div id="check" onClick="updateCookie();">確認完成</div>');
+		                $('#checkRegister').append('<div id="check" onClick="backIndex();">確認完成</div>');
 						$('#checkRegister').removeClass('hidden');
 						$('#transparent').removeClass('hidden');
                         var queryDivTop = (window.innerHeight - $('#checkRegister').height()) / 2;
@@ -364,7 +451,7 @@
 				<div class="clear"></div>
 			</div>
 			<a class="button" id="lastPage" onClick="lastPage();"	>上一步</a> 
-			<a class="button" id="submit" onClick="javascript:submitRegister();">完成</a>
+			<a class="button" id="submit" onClick="javascript:updateCookie();">完成</a>
 			<div class="clear"></div>
 
             <input type="hidden" id="hiddenId" ></input> 
