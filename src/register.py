@@ -18,6 +18,7 @@ class MainPage(webapp.RequestHandler):
         self.response.out.write(template.render(path, template_values))
     def post(self):
         hospitalId = self.request.get('hospitalId')
+        hospitalUrl = self.request.get('hospitalUrl')
         deptId = self.request.get('deptId')
         doctorId = self.request.get('doctorId')
         hospital = self.request.get('Hospital')
@@ -27,6 +28,7 @@ class MainPage(webapp.RequestHandler):
         #pic = images.resize(self.request.get("img") , 85, 120)
         template_values = {
             'hospitalId': hospitalId,
+            'hospitalUrl': hospitalUrl,
             'deptId': deptId,
             'doctorId': doctorId,
             'hospital': hospital,

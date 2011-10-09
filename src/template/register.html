@@ -187,7 +187,31 @@
 			return;
 		}
 
-		
+
+        /*
+         *  Start query to register. If success, the data will write to database to record 
+         */
+        /*
+        $.ajax({
+                type: "GET",
+                url: "http://www.cs.nctu.edu.tw/~hcsu/hospital_db/register_to_hospital.php",
+                dataType: "jsonp",
+                data: {
+                        'postUrl': $('#hospitalUrl').val(),
+						'postDoctorId' : $('#doctorId').val(),
+						'postDeptId' : $('#deptId').val(),
+						'postId' : $('#inputIdValue').val(),
+						'postBirthday' : $('#inputBirthdayValue').val(),
+						'postTime' : $('#inputTime').val(),
+						'postFirst' : 'true'
+                },
+                success: function(response) {
+                },
+                error : function(xhr, ajaxOptions, thrownError) {
+                }
+        });
+        return;
+	*/	
 		$
 				.ajax({
 					type : "GET",
@@ -237,8 +261,9 @@
                         $('#checkRegister').css("top", queryDivTop);
 					},
 					error : function(xhr, ajaxOptions, thrownError) {
-						//alert("Error. back to main page");
-						window.location="/";
+						alert("Error. back to main page");
+                        
+						//window.location="/";
 					}
 				});
 
@@ -369,60 +394,17 @@
 
             <input type="hidden" id="hiddenId" ></input> 
             <input type="hidden" id="hiddenBirthday"></input> 
-            <input type="hidden" id="hospitalId" value="{{hospitalId}}">
-            <input type="hidden" id="deptId" value="{{deptId}}">
-            <input type="hidden" id="doctorId" value="{{doctorId}}">
-            <input type="hidden" id="inputHospital" value="{{hospital}}">
-            <input type="hidden" id="inputDept" value="{{dept}}">
-            <input type="hidden" id="inputDoctor" value="{{doctor}}">
-            <input type="hidden" id="inputTime" value="{{time}}">
-            
+            <input type="hidden" id="hospitalId" value="{{hospitalId}}"></input>
+            <input type="hidden" id="hospitalUrl" value="{{hospitalUrl}}"></input>
+            <input type="hidden" id="deptId" value="{{deptId}}"></input>
+            <input type="hidden" id="doctorId" value="{{doctorId}}"></input>
+            <input type="hidden" id="inputHospital" value="{{hospital}}"></input>
+            <input type="hidden" id="inputDept" value="{{dept}}"></input>
+            <input type="hidden" id="inputDoctor" value="{{doctor}}"></input>
+            <input type="hidden" id="inputTime" value="{{time}}"></input>
 		</form>
 	</div>
 	
-	
-	<div class="clear"></div>
-	
-		
-	<div id="editInfo">
-				
-		<div class="redTitle" id="newInfoTitle"></div>
-		<!--<div id="notification" class="hidden" >請填入資料後，<br>按送出以新增資料</div>-->
-		
-		<form id="personalInfo" method="post" enctype="multipart/form-data"
-			action="/register">
-			<div class="formData">
-				<div class="inputTextLeft">姓名：</div>
-				<div class="inputTextRight">
-					<input type="text" id="inputName" placeholder="請輸入姓名"></input>
-					<span class="editButton" id="deleteButton" onclick="deletePerson($('#inputId').val())">刪除</span>
-				</div>
-				<div class="clear"></div>
-				<div class="inputTextLeft">身分證：</div>
-				<div class="inputTextRight">
-					<input type="text" id="inputId" placeholder="請輸入身分證字號"></input>
-				</div>
-				<div class="clear"></div>
-				<div class="inputTextLeft">生日：</div>
-				<div class="inputTextRight">
-					<input type="text" id="inputBirthday"
-						placeholder="請輸入生日,例：1988/02/03"></input>
-				</div>
-				<div class="clear"></div>
-				<div class="inputTextLeft">電話：</div>
-				<div class="inputTextRight">
-					<input type="text" id="inputPhone"
-						placeholder="請輸入電話號碼"></input>
-                <span class="editButton" id="editButton" onclick="takeshot()">拍照</span>
-				</div>
-				<div class="clear"></div>
-			</div>
-			<a class="button" id="lastPage" onClick="closeEditMode()">取消</a> 
-			<a class="button" id="submit" onClick="updateCookie();">送出</a>
-			<div class="clear"></div>
-
-		</form>
-	</div>
 	
 </body>
 </html>
