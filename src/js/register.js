@@ -155,7 +155,7 @@
             
            
 		} else {
-            showNotifiaction();
+            showNotifiaction("請先填入資料");
 		}
     }
 
@@ -257,7 +257,7 @@
 		
         if(inputName.length == 0 || inputId.length == 0 || inputBirthday.length == 0 || inputPhone.length == 0 || $('#inputHospital').val() == "" || $('#inputDept').val() == ""|| $('#inputDoctor').val() == "" || $('#inputTime').val() == "" )
 		{
-            showNotifiaction();
+            showNotifiaction("請先填入資料");
 			return;
 		}
 
@@ -268,9 +268,10 @@
         
         $.ajax({
                 type: "GET",
-                url: $('#hospitalUrl').val()+"/register",
+                url: "http://www.cs.nctu.edu.tw/~hcsu/hospital/local-ajax/register_to_hospital.php",
                 dataType: "jsonp",
                 data: {
+                		'url' : $('#hospitalUrl').val(),
 						'doctorId' : $('#doctorId').val(),
 						'deptId' : $('#deptId').val(),
 						'id' : $('#inputIdValue').val(),
@@ -283,8 +284,12 @@
 						'marriage' : $('#inputMarriage').val(),				
                 },
                 success: function(response) {
+                	if(response.status != 0) {
+                		showNotifiaction("系統錯誤");
+                	}
                 },
                 error : function(xhr, ajaxOptions, thrownError) {
+                	showNotifiaction("系統錯誤");
                 }
         });
         return;
@@ -389,7 +394,7 @@
 		
     function takeshot() {
         if($('#inputIdValue').val() == "") {
-            showNotifiaction();
+            showNotifiaction("請先填入資料");
         }
         else {
             if( navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPad/i)) {

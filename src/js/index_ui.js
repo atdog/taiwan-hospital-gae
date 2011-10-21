@@ -22,9 +22,11 @@ function closeNotification() {
     $('#notification').addClass("hidden");
     $('#notificationBackground').addClass("hidden");
 }
-function showNotifiaction() {
+function showNotifiaction(text) {
+	$('#notificationText').html(text);
     $('#notification').removeClass("hidden");
     $('#notificationBackground').removeClass("hidden");
+    
 }
 
 function setHeight() {
