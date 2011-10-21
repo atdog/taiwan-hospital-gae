@@ -139,16 +139,16 @@ border-radius: 0px 5px 5px 0px;
 }
 
 #personalContent .row {
-	padding: 1em;
-	height: 10px;
+	margin: 0 0 auto;
+	height: 40px;
 	width: 350px;
 }
 
 #personalContent .row .left{
-	width:50%;
+	width:45%;
 }
 #personalContent .row .right{
-	width:20%;
+	width:40%;
 }
 
 #Form,#info
@@ -478,20 +478,19 @@ box-shadow: 1px 1px 4px 2px rgba(00, 00, 00, 0.6);
 	height:25%;
 	width: 30%;
 	height: 20%;
-	font-size: 2em;
-	margin: 1% 0 0 10%;
+	font-size: 1.7em;
+	margin: 1% 0 0 1%;
 }
 
 .inputTextRight {
 	float: left;
-	width: 50%;
+	width: 60%;
 	height:25%;
 	margin: 1% 1% auto;
 }
 
 .inputTextRight input {
-	height: 30px;
-	width: 170px;
+
 }
 
 .formData { 	
@@ -504,7 +503,9 @@ box-shadow: 1px 1px 4px 2px rgba(00, 00, 00, 0.6);
 	
 }
 
-
+.selectInfo {
+	font-size: 1.7em;
+}
 
 #submit
 {
@@ -729,9 +730,11 @@ box-shadow: 1px 1px 4px 2px rgba(00, 00, 00, 0.6);
 
 }
 
-#inputNameValue ,#inputIdValue,#inputBirthdayValue,#inputPhoneValue
+#inputNameValue ,#inputIdValue,#inputBirthdayValue,#inputPhoneValue,#inputHospital,#inputDept,#inputDoctor,#inputTime
 {
 font-size:1.2em;
+width:170px;
+height:30px;
 }
 
 #editInfo{

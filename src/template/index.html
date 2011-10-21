@@ -37,7 +37,7 @@ function updatePersonalPage() {
 	}
 	for(var i = 0 ; i < cookie.length; ++i) {
 		var person = cookie[i];
-		$('#profileData').append("<div class='profilePhoto'><img onclick='choosePerson(\""+person.name+"\",\""+person.id+"\",\""+person.birthday+"\",\""+person.phone+"\")' src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+person.id+"' width='120px'></img></div>");
+		$('#profileData').append("<div class='profilePhoto'><img onclick='choosePerson(\""+person.name+"\",\""+person.id+"\",\""+person.birthday+"\",\""+person.phone+"\",\""+person.gender+"\",\""+person.nation+"\",\""+person.marriage+"\")' src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+person.id+"' width='120px'></img></div>");
 	}
 	
 	
@@ -202,10 +202,11 @@ function hidePersonalInfo() {
 	$('#profileButton').bind('click',showPersonalInfo);
 }
 
-function choosePerson(name,id,birthday,phone) {
+function choosePerson(name,id,birthday,phone,gender,nation,marriage) {
 	$('#editProfilePage').fadeOut("fast");
 	$('#editProfilePage').fadeIn("slow");
-	$('#editProfilePage').html("<div class=title>"+name+"<span class='button' style='float:right;' onClick='deletePerson(\""+id+"\")'>刪除</span></div><div id='personalInfo'><div id='personalImage'><img src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+id+"' width='140px'></img><div class='button'>拍照</div></div><div id='personalContent'><div><div class='row'><span class='left'>身分證字號：</span><span class='right'>"+id+"</span></div><div class='row'><span class='left'>生日：</span><span class='right'>"+birthday+"</span></div><div class='row'><span class='left'>電話：</span><span class='right'>"+phone+"</span></div></div>");
+	
+	$('#editProfilePage').html("<div class=title>"+name+"<span class='button' style='float:right;' onClick='deletePerson(\""+id+"\")'>刪除</span></div><div id='personalInfo'><div id='personalImage'><img src='http://www.cs.nctu.edu.tw/~hcsu/hospital_db/view_image.php?id="+id+"' width='140px'></img><div class='button'>拍照</div></div><div id='personalContent'><div><div class='row'><span class='left'>身分證字號：</span><span class='right'>"+id+"</span></div><div class='row'><span class='left'>生日：</span><span class='right'>"+birthday+"</span></div><div class='row'><span class='left'>電話：</span><span class='right'>"+phone+"</span></div><div class='row'><span class='left'>性別：</span><span class='right'>"+GenderList[gender]+"</span></div><div class='row'><span class='left'>國籍：</span><span class='right'>"+NationList[nation]+"</span></div><div class='row'><span class='left'>婚姻：</span><span class='right'>"+MarriageList[marriage]+"</span></div></div>");
 }
 </script>
 </head>

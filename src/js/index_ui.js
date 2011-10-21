@@ -5,6 +5,9 @@
 $(document).ready(function(){
 	setHeight();
 });
+GenderList = ["","男生","女生"];
+NationList = ["","本國","外國"];
+MarriageList = ["","未婚","已婚","離婚","喪偶"];
 
 window.onresize = function(event) {
 	setHeight();
