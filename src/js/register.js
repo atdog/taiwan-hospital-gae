@@ -272,8 +272,8 @@
                 dataType: "jsonp",
                 data: {
                 		'url' : $('#hospitalUrl').val(),
-						'doctorId' : $('#doctorId').val(),
-						'deptId' : $('#deptId').val(),
+						'doctor' : $('#doctorId').val(),
+						'dept' : $('#deptId').val(),
 						'id' : $('#inputIdValue').val(),
 						'birthday' : $('#inputBirthdayValue').val(),
 						'time' : $('#inputTime').val(),
@@ -284,7 +284,10 @@
 						'marriage' : $('#inputMarriage').val(),				
                 },
                 success: function(response) {
-                	if(response.status != 0) {
+                	if(response.status == 0) {
+                		register_to_db(response.message);
+                	}
+                	else {
                 		showNotifiaction("系統錯誤");
                 	}
                 },
@@ -294,7 +297,10 @@
         });
         return;
 		
-		$
+	}
+	
+	function register_to_db(message) {
+			$
 				.ajax({
 					type : "GET",
 					url : "http://www.cs.nctu.edu.tw/~hcsu/hospital/local-ajax/register.php",
@@ -309,7 +315,8 @@
 						'id' : $('#inputIdValue').val(),
 						'birthday' : $('#inputBirthdayValue').val(),
 						'time' : $('#inputTime').val(),
-						'first' : 'true'
+						'first' : 'true',
+						'message' : message
 					},
 					success : function(response) {
 						var row = $
@@ -334,7 +341,7 @@
 						});
 						$('#checkRegister').append(row, {
 							item : '診號:',
-							value : response['message']
+							value : message
 						});
 		                $('#checkRegister').append('<div id="check" onClick="backIndex();">確認完成</div>');
 						$('#checkRegister').removeClass('hidden');
@@ -343,14 +350,11 @@
                         $('#checkRegister').css("top", queryDivTop);
 					},
 					error : function(xhr, ajaxOptions, thrownError) {
-						alert("Error. back to main page");
-                        
-						//window.location="/";
+						window.location="/";
 					}
 				});
-
-	}
 	
+	}
 
 	
 	function lastPage() {
